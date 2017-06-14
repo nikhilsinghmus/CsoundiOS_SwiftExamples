@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,7 +25,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="generateTrappedToDocumentsFolder:" destination="-1" eventType="touchUpInside" id="18"/>
+                        <action selector="generateTrappedToDocumentsFolder:" destination="-1" eventType="touchUpInside" id="a8U-U9-OYc"/>
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8">
@@ -39,14 +39,14 @@
                     <rect key="frame" x="145" y="303" width="30" height="30"/>
                     <state key="normal" title="Play"/>
                     <connections>
-                        <action selector="play:" destination="-1" eventType="touchUpInside" id="FQj-Rc-BKM"/>
+                        <action selector="play:" destination="-1" eventType="touchUpInside" id="P1o-j4-DkY"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zY-xC-ArJ">
                     <rect key="frame" x="144" y="341" width="32" height="30"/>
                     <state key="normal" title="Stop"/>
                     <connections>
-                        <action selector="stop:" destination="-1" eventType="touchUpInside" id="eQ2-Oa-Mw1"/>
+                        <action selector="stop:" destination="-1" eventType="touchUpInside" id="jj3-bK-Dp5"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHZ-6L-BH1">
@@ -57,7 +57,7 @@
                     </constraints>
                     <state key="normal" title="Button" image="InfoButton"/>
                     <connections>
-                        <action selector="showInfo:" destination="-1" eventType="touchUpInside" id="n29-dm-dPk"/>
+                        <action selector="showInfo:" destination="-1" eventType="touchUpInside" id="ZBl-O3-VIF"/>
                     </connections>
                 </button>
             </subviews>

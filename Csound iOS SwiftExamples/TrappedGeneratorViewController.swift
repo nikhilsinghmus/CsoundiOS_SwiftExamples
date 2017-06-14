@@ -12,7 +12,7 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
     
     var hasRendered = false
     var localFileURL: URL?
-    var player = AVAudioPlayer()
+    var player: AVAudioPlayer?
     
     override func viewDidLoad() {
         title = "06. Render: Trapped in Convert"
@@ -22,14 +22,14 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
     @IBAction func generateTrappedToDocumentsFolder(_ sender: UIButton) {
         let csdPath = Bundle.main.path(forResource: "trapped", ofType: "csd")
         let docsDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        localFileURL = (docsDirURL.appendingPathComponent("trapped.wav"))
+        localFileURL = docsDirURL.appendingPathComponent("trapped.wav")
         
         csound.stop()
         csound = CsoundObj()
-        
         csound.add(self)
+        
         if localFileURL != nil {
-            csound.record(csdPath, to: localFileURL)
+            csound.record(csdPath, toFile: localFileURL!.path)
         }
     }
 
@@ -48,8 +48,8 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
                 }
             }
             
-            player.prepareToPlay()
-            player.play()
+            player?.prepareToPlay()
+            player?.play()
         } else {
             let alert = UIAlertController(title: "Not Rendered", message: "Please render the file before playing it.", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -60,8 +60,10 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
     }
     
     @IBAction func stop(_ sender: UIButton) {
-        if player.isPlaying {
-            player.stop()
+        if player != nil {
+            if player!.isPlaying {
+                player!.stop()
+            }
         }
     }
     
