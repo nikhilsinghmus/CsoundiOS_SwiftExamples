@@ -84,7 +84,6 @@
 		24BF2DE11EDD15190091F04E /* libcsound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24BF2DD01EDD15190091F04E /* libcsound.a */; };
 		24BF2DE21EDD15190091F04E /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24BF2DD11EDD15190091F04E /* libsndfile.a */; };
 		24BF2DE31EDD15190091F04E /* LICENSE.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 24BF2DD21EDD15190091F04E /* LICENSE.TXT */; };
-		24FD95811EEDD02700AACAE3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FD95801EEDD02700AACAE3 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -210,7 +209,6 @@
 		24BF2DD11EDD15190091F04E /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsndfile.a; sourceTree = "<group>"; };
 		24BF2DD21EDD15190091F04E /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
 		24BF2DE41EDD15360091F04E /* Csound-iOS-SwiftExamples-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Csound-iOS-SwiftExamples-Bridging-Header.h"; sourceTree = "<group>"; };
-		24FD95801EEDD02700AACAE3 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,7 +247,6 @@
 				24BF2DE41EDD15360091F04E /* Csound-iOS-SwiftExamples-Bridging-Header.h */,
 				24BF2D551EDD13870091F04E /* AppDelegate.swift */,
 				24BF2D571EDD13870091F04E /* MasterViewController.swift */,
-				24FD95801EEDD02700AACAE3 /* DetailViewController.swift */,
 				24BF2D8E1EDD150D0091F04E /* BaseCsoundViewController.swift */,
 				24BF2D5B1EDD13870091F04E /* Main.storyboard */,
 				24BF2D5E1EDD13870091F04E /* Assets.xcassets */,
@@ -671,7 +668,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24FD95811EEDD02700AACAE3 /* DetailViewController.swift in Sources */,
 				2415E3511EDF8E1E00253956 /* ControlXYGrid.swift in Sources */,
 				243E99331EDF19FB00EBD4EB /* HardwareTestViewController.swift in Sources */,
 				24BF2DDF1EDD15190091F04E /* MidiWidgetsManager.m in Sources */,
@@ -840,6 +836,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.csound.Csound-iOS-SwiftExamples";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -859,6 +856,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.csound.Csound-iOS-SwiftExamples";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

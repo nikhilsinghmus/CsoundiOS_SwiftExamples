@@ -9,7 +9,7 @@ import UIKit
 
 class MasterViewController: UITableViewController {
 
-    var detailViewController: DetailViewController? = nil
+    var detailViewController: BaseCsoundViewController? = nil
     
     var allVCClasses: [BaseCsoundViewController.Type] = [SimpleTest1ViewController.self,
                                                     SimpleTest2ViewController.self,
@@ -50,7 +50,7 @@ class MasterViewController: UITableViewController {
         title = "Csound for iOS"
         if let split = splitViewController {
             let controllers = split.viewControllers
-            detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+            detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? BaseCsoundViewController
             tableView.selectRow(at: IndexPath.init(row: 0, section: 0), animated: false, scrollPosition: .middle)
         }
     }

@@ -26,8 +26,10 @@ class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate,
     var masterPopoverController: UIViewController?
 
     override func viewDidLoad() {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            self.navigationItem.leftBarButtonItem = splitViewController?.navigationItem.leftBarButtonItem
+        }
         super.viewDidLoad()
-
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -81,7 +83,6 @@ class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate,
     
     
     // MARK: Init
-    
     required override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -90,11 +91,8 @@ class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate,
         super.init(coder: aDecoder)
     }
     
-    
     // MARK: Split View
-    
     func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewControllerDisplayMode) {
-        
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem;
         navigationItem.leftBarButtonItem?.title = "Csound for iOS"
         masterPopoverController = svc
