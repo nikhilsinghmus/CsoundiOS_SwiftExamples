@@ -2,17 +2,18 @@
 //  BaseCsoundViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
 
+// Define base class for all examples
 class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     
     var infoText = ""
     var infoVC = UIViewController()
+    var csound = CsoundObj()    // CsoundObj() property inherited by all examples
     
-    var csound = CsoundObj()
     var detailItem: AnyObject? {
         didSet(newDetailItem) {
             configureView()
@@ -48,9 +49,9 @@ class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate,
         }
     }
     
+    // Method to display information in a popover, called from each inheriting class
     func displayInfo(_ sender: UIButton) {
         infoVC.modalPresentationStyle = .popover
-        
         
         let infoTextView = UITextView(frame: CGRect(x: 0, y: 0, width: infoVC.preferredContentSize.width, height: infoVC.preferredContentSize.height))
         infoTextView.isEditable = false
@@ -68,9 +69,9 @@ class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate,
         present(infoVC, animated: true, completion: nil)
     }
     
-    
+    // MARK: UIPopoverPresentationControllerDelegate
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
+        return .none    // Ensure infoVC presents as popover on iPhone
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {

@@ -2,13 +2,14 @@
 //  ControlKnob.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 6/2/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
 
 class ControlKnob: UIControl, CsoundBinding {
     
+    // Use a computed property so we have a custom setter
     private var _value: Float32 = 1.0
     var value: Float32 {
         set {
@@ -17,6 +18,8 @@ class ControlKnob: UIControl, CsoundBinding {
         }
         get { return self._value }
     }
+    
+    // Initial default, min, and max values
     var defaultValue: Float32 = 1.0
     var minimumValue: Float32 = 0.5
     var maximumValue: Float32 = 2.0
@@ -65,23 +68,26 @@ class ControlKnob: UIControl, CsoundBinding {
     
     // MARK: Drawing
     override func draw(_ rect: CGRect) {
-        transform = CGAffineTransform(rotationAngle: (angle * .pi)/180.0)
         if angle >= 360 {
             angle -= 360
         }
+        
+        transform = CGAffineTransform(rotationAngle: (angle * .pi)/180.0) // Degrees to radians
         
         let context = UIGraphicsGetCurrentContext()
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
         context?.translateBy(x: 0, y: rect.size.height)
-        context?.scaleBy(x: 1.0, y: -1.0)
+        context?.scaleBy(x: 1.0, y: -1.0)   // Invert vertical (so 0 is at the bottom)
         
+        // Draw knob
         let redComponents: [CGFloat] = [1, 0.1, 0, 1]
         let redColor = CGColor(colorSpace: colorSpace, components: redComponents)
         context?.setFillColor(redColor!)
         context?.addEllipse(in: rect)
         context?.fillEllipse(in: rect)
         
+        // Draw position indicator
         context?.move(to: CGPoint(x: rect.size.width/4.0, y: rect.size.height/4.0))
         context?.addLine(to: CGPoint(x: rect.size.width/2.0, y: rect.size.height/2.0))
         let blackComponents: [CGFloat] = [0, 0, 0, 1]
@@ -97,7 +103,7 @@ class ControlKnob: UIControl, CsoundBinding {
         addTarget(self, action: #selector(updateChannelValue(_:)), for: .valueChanged)
     }
     
-    @objc func updateChannelValue(_ sender: ControlKnob) {
+    func updateChannelValue(_ sender: ControlKnob) {
         channelValue = sender._value
     }
     

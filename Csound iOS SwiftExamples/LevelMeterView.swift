@@ -2,7 +2,7 @@
 //  LevelMeterView.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/31/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -18,7 +18,7 @@ class LevelMeterView: UIView, CsoundBinding {
     private var count2 = 0
     
     var channelName = ""
-
+    
     override func draw(_ rect: CGRect) {
         let clipPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 10, height: 10))
         clipPath.addClip()
@@ -27,7 +27,7 @@ class LevelMeterView: UIView, CsoundBinding {
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
         context?.translateBy(x: 0, y: rect.size.height)
-        context?.scaleBy(x: 1, y: -1)
+        context?.scaleBy(x: 1, y: -1)   // Invert Y Axis
         
         let grayComponents: [CGFloat] = [0.7, 0.7, 0.7, 1.0]
         let grayColor = CGColor(colorSpace: colorSpace, components: grayComponents)
@@ -39,6 +39,7 @@ class LevelMeterView: UIView, CsoundBinding {
         let squareWidth = width - 10
         let squareHeight = height/30.0
         
+        // Define colors
         let greenComponents: [CGFloat] = [0, 1, 0, 1]
         let yellowComponents: [CGFloat] = [221.0/250.0, 223.0/250.0, 14.0/250.0, 1.0]
         let redComponents: [CGFloat] = [1, 0, 0, 1]

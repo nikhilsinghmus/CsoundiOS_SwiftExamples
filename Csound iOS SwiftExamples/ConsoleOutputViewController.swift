@@ -2,7 +2,7 @@
 //  ConsoleOutputViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -20,20 +20,21 @@ class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, 
     private var folderPath: String?
     private var csdListVC: UIViewController?
     
+    // This method is called by CsoundObj() to output console messages
     func messageCallback(_ infoObj: NSValue) {
-        var info = Message()
-        infoObj.getValue(&info)
-        let message = UnsafeMutablePointer<Int8>.allocate(capacity: 1024)
-        let va_ptr: CVaListPointer = CVaListPointer(_fromUnsafeMutablePointer: &(info.valist))
-        vsnprintf(message, 1024, info.format, va_ptr)
-        var output = ""
-        output = String(cString: message)
+        var info = Message()    // Create instance of Message (a C Struct)
+        infoObj.getValue(&info) // Store the infoObj value in Message
+        let message = UnsafeMutablePointer<Int8>.allocate(capacity: 1024) // Create an empty C-String
+        let va_ptr: CVaListPointer = CVaListPointer(_fromUnsafeMutablePointer: &(info.valist)) // Get reference to variable argument list
+        vsnprintf(message, 1024, info.format, va_ptr)   // Store in our C-String
+        let output = String(cString: message)   // Create String object with C-String
         
         DispatchQueue.main.async { [unowned self] in
-            self.updateUIWithNewMessage(output)
+            self.updateUIWithNewMessage(output)     // Update UI on main thread
         }
     }
     
+    // MARK: TableView delegate methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if csdArray != nil {
             return csdArray!.count
@@ -56,6 +57,7 @@ class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, 
         csdListVC?.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: IBActions
     @IBAction func run(_ sender: UIButton) {
         if sender.isSelected == false {
             mTextView.text = ""
@@ -93,6 +95,12 @@ class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, 
             present(csdListVC!, animated: true, completion: nil)
         }
     }
+    
+    @IBAction func showInfo(_ sender: UIButton) {
+        infoVC.preferredContentSize = CGSize(width: 300, height: 160)
+        infoText = "Renders, by default, a simple 5-second 'countdown' csd and publishes information to a virtual Csound console every second. Click the CSD button on the right to select a different csd file."
+        displayInfo(sender)
+    }
 
     override func viewDidLoad() {
         folderPath = Bundle.main.resourcePath?.appending("/csdStorage/")
@@ -106,12 +114,6 @@ class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, 
         }
         csdPath = Bundle.main.path(forResource: "TextOnly - Countdown", ofType: "csd", inDirectory: "csdStorage")
         super.viewDidLoad()
-    }
-    
-    @IBAction func showInfo(_ sender: UIButton) {
-        infoVC.preferredContentSize = CGSize(width: 300, height: 160)
-        infoText = "Renders, by default, a simple 5-second 'countdown' csd and publishes information to a virtual Csound console every second. Click the CSD button on the right to select a different csd file."
-        displayInfo(sender)
     }
 
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {

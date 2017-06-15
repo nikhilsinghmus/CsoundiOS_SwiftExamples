@@ -2,7 +2,7 @@
 //  Csound-iOS-SwiftExamples-Bridging-Header.h
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 #ifndef Csound_iOS_SwiftExamples_Bridging_Header_h

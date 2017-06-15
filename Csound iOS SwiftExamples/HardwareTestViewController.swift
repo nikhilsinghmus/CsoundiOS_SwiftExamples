@@ -2,7 +2,7 @@
 //  HardwareTestViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -12,6 +12,7 @@ class HardwareTestViewController: BaseCsoundViewController, CsoundObjListener {
     
     @IBOutlet var mSwitch: UISwitch!
     
+    // Labels to display accelerometer, gyro, attitude sensor values
     @IBOutlet var accX: UILabel!
     @IBOutlet var accY: UILabel!
     @IBOutlet var accZ: UILabel!
@@ -26,7 +27,7 @@ class HardwareTestViewController: BaseCsoundViewController, CsoundObjListener {
     
     var csoundMotion = CsoundMotion()
     var motionManager = CMMotionManager()
-
+    
     override func viewDidLoad() {
         title = "14, Hardware: Motion Control"
         super.viewDidLoad()
@@ -43,13 +44,14 @@ class HardwareTestViewController: BaseCsoundViewController, CsoundObjListener {
             csoundMotion = CsoundMotion(csoundObj: csound)
             
             if csoundMotion.motionManager != nil {
-                motionManager = csoundMotion.motionManager
+                motionManager = csoundMotion.motionManager  // Grab the csoundMotion object's CMMotionManager instance
                 
+                // Enable accelerometer
                 if motionManager.isAccelerometerAvailable {
                     csoundMotion.enableAccelerometer()
-                    motionManager.accelerometerUpdateInterval = 0.1
+                    motionManager.accelerometerUpdateInterval = 0.1 // Set how quickly updates are pulled
                     motionManager.startAccelerometerUpdates(to: .main, withHandler: { [unowned self] (data: CMAccelerometerData?, error: Error?) in
-                        if data?.acceleration != nil {
+                        if data?.acceleration != nil {  // Use a closure to publish sensor values to labels
                             self.accX.text = String(format: "%.3f", (data?.acceleration.x)!)
                             self.accY.text = String(format: "%.3f", (data?.acceleration.y)!)
                             self.accZ.text = String(format: "%.3f", (data?.acceleration.z)!)
@@ -57,6 +59,7 @@ class HardwareTestViewController: BaseCsoundViewController, CsoundObjListener {
                     })
                 }
                 
+                // Enable gyro
                 if motionManager.isGyroAvailable {
                     csoundMotion.enableGyroscope()
                     motionManager.gyroUpdateInterval = 0.1
@@ -69,6 +72,7 @@ class HardwareTestViewController: BaseCsoundViewController, CsoundObjListener {
                     })
                 }
                 
+                // Enable attitude
                 if motionManager.isDeviceMotionAvailable {
                     csoundMotion.enableAttitude()
                     motionManager.accelerometerUpdateInterval = 0.1
@@ -81,11 +85,11 @@ class HardwareTestViewController: BaseCsoundViewController, CsoundObjListener {
                     })
                 }
             }
-            
             csound.play(tempFile)
         } else {
             csound.stop()
             
+            // Stop sensor updates
             if motionManager == csoundMotion.motionManager {
                 motionManager.stopAccelerometerUpdates()
                 motionManager.stopGyroUpdates()

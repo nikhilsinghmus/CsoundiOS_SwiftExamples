@@ -2,7 +2,7 @@
 //  TrappedGeneratorViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -19,6 +19,7 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
         super.viewDidLoad()
     }
     
+    // Render Trapped in Convert, using trapped.csd, to a file
     @IBAction func generateTrappedToDocumentsFolder(_ sender: UIButton) {
         let csdPath = Bundle.main.path(forResource: "trapped", ofType: "csd")
         let docsDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -27,7 +28,7 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
         csound.stop()
         csound = CsoundObj()
         csound.add(self)
-        
+        // Render offline (there are other methods to record in realtime)
         if localFileURL != nil {
             csound.record(csdPath, toFile: localFileURL!.path)
         }
@@ -68,6 +69,7 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
     }
     
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {
+        // Display a UIAlertController to the user notifying them of render completion
         let alert = UIAlertController(title: "Render Complete", message: "File generated as trapped.wav in application Documents Folder.", preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(defaultAction)

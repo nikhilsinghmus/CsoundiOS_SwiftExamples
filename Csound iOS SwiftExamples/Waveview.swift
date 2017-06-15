@@ -2,7 +2,7 @@
 //  Waveview.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/31/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -14,12 +14,12 @@ class Waveview: UIView, CsoundBinding {
     private var csObj = CsoundObj()
     private var table: UnsafeMutablePointer<Float>?
     private var tableLength = 0
-    private lazy var displayData = [Float]()
+    private var displayData = [Float]()
     private var fTableNumber = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        displayData = [Float](repeatElement(Float(0), count: Int(frame.width)))
+        displayData = [Float](repeatElement(Float(0), count: Int(frame.width))) // Init with 0s
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,11 +33,13 @@ class Waveview: UIView, CsoundBinding {
         self.updateValuesFromCsound()
     }
     
+    // Take in a pointer to a float and return a Swift array of values stored beginning at that memory location
     func ptoa(_ ptr: UnsafeMutablePointer<Float>, length: Int) -> [Float] {
         let bfr = UnsafeBufferPointer(start: ptr, count: length)
         return [Float](bfr)
     }
     
+    // MARK: Drawing Code
     override func draw(_ rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
         context?.setFillColor(UIColor.black.cgColor)
@@ -62,6 +64,7 @@ class Waveview: UIView, CsoundBinding {
         }
     }
     
+    // Update values from F-table in displayData array
     private func updateDisplayData() {
         let scalingFactor: Float32 = 0.9
         let width = self.frame.size.width
@@ -92,6 +95,7 @@ class Waveview: UIView, CsoundBinding {
         fTableNumber = 1
     }
     
+    // Update F-table values from Csound
     func updateValuesFromCsound() {
         if !tableLoaded {
             let cs = csObj.getCsound()

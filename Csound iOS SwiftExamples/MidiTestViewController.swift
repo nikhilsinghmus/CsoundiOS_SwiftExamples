@@ -2,7 +2,7 @@
 //  MidiTestViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -23,6 +23,7 @@ class MidiTestViewController: BaseCsoundViewController, CsoundObjListener, Csoun
     override func viewDidLoad() {
         title = "04. Hardware: MIDI Controller"
         
+        // Use a MidiWidgetsManager object to add MIDI CC to UI object bindings
         widgetsManager.add(mAttackSlider, forControllerNumber: 1)
         widgetsManager.add(mDecaySlider, forControllerNumber: 2)
         widgetsManager.add(mSustainSlider, forControllerNumber: 3)
@@ -35,7 +36,7 @@ class MidiTestViewController: BaseCsoundViewController, CsoundObjListener, Csoun
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        widgetsManager.closeMidiIn()
+        widgetsManager.closeMidiIn()    // Close MIDI input
         super.viewWillDisappear(animated)
     }
     
@@ -47,6 +48,7 @@ class MidiTestViewController: BaseCsoundViewController, CsoundObjListener, Csoun
             csound = CsoundObj()
             csound.add(self)
             
+            // Add value bindings for UI objects which are controlled by MIDI CCs
             let csoundUI = CsoundUI(csoundObj: csound)
             csoundUI?.add(mAttackSlider, forChannelName: "attack")
             csoundUI?.add(mDecaySlider, forChannelName: "decay")
@@ -62,6 +64,7 @@ class MidiTestViewController: BaseCsoundViewController, CsoundObjListener, Csoun
         }
     }
     
+    // Turn off all notes using a csound instrument
     @IBAction func midiPanic(_ sender: UIButton) {
         csound.sendScore("i \"allNotesOff\" 0 1")
     }
@@ -78,6 +81,7 @@ class MidiTestViewController: BaseCsoundViewController, CsoundObjListener, Csoun
         }
     }
     
+    // Virtual keyboard delegate methods
     func keyDown(_ keybd: CsoundVirtualKeyboard, keyNum: Int) {
         let midikey = 60 + keyNum
         csound.sendScore(String(format: "i1.%003d 0 -1 \(midikey) 0", midikey))

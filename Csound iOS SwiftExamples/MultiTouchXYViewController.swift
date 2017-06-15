@@ -2,7 +2,7 @@
 //  MultiTouchXYViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -77,6 +77,7 @@ class MultiTouchXYViewController: BaseCsoundViewController, CsoundBinding {
         return -1
     }
     
+    // MARK: Touch Handling Code
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let touchId = getTouchIdAssignment()
@@ -86,7 +87,7 @@ class MultiTouchXYViewController: BaseCsoundViewController, CsoundBinding {
                 
                 let pt = touch.location(in: view)
                 touchX[touchId] = Float(pt.x / view.frame.size.width)
-                touchY[touchId] = Float(1 - (pt.y / view.frame.size.height))
+                touchY[touchId] = Float(1 - (pt.y / view.frame.size.height))    // Invert Y axis
                 
                 touchXPtr[touchId]?.pointee = touchX[touchId]
                 touchYPtr[touchId]?.pointee = touchY[touchId]

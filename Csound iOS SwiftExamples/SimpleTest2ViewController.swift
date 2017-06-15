@@ -2,7 +2,7 @@
 //  SimpleTest2ViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -39,6 +39,7 @@ class SimpleTest2ViewController: BaseCsoundViewController, CsoundObjListener {
             csound = CsoundObj()
             csound.add(self)
             
+            // Add UI bindings using CsoundUI, a class that binds Csound values to UIKit objects
             let csoundUI = CsoundUI(csoundObj: csound)
             csoundUI?.labelPrecision = 2
             csoundUI?.add(rateSlider, forChannelName: "noteRate")

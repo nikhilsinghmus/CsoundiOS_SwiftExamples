@@ -2,20 +2,21 @@
 //  CsoundVirtualKeyboard.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/31/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
 
 class CsoundVirtualKeyboard: UIView {
     
+    // Variable declarations
     private var keyDown = [Bool].init(repeating: false, count: 25)
     private var currentTouches = NSMutableSet()
     private var keyRects = [CGRect](repeatElement(CGRect(), count: 25))
     private var lastWidth: CGFloat = 0.0
     private let keysNum = 25
     
-    @IBOutlet var keyboardDelegate: AnyObject?
+    @IBOutlet var keyboardDelegate: AnyObject? // keyboardDelegate object will handle key presses and releases
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,9 +24,10 @@ class CsoundVirtualKeyboard: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        isMultipleTouchEnabled = true
+        isMultipleTouchEnabled = true   // Enable multiple touch so we can press multiple keys
     }
     
+    // Check if a key is a white key or a black key depending on its index
     func isWhiteKey(_ key: Int) -> Bool {
         switch (key % 12) {
         case 0, 2, 4, 5, 7, 9, 11:
@@ -35,6 +37,7 @@ class CsoundVirtualKeyboard: UIView {
         }
     }
     
+    // MARK: Update key statuses
     private func updateKeyRects() {
         if lastWidth == bounds.size.width { return }
         
@@ -209,6 +212,7 @@ class CsoundVirtualKeyboard: UIView {
     }
 }
 
+// Protocol for delegate to conform to
 @objc protocol CsoundVirtualKeyboardDelegate {
     func keyUp(_ keybd:CsoundVirtualKeyboard, keyNum:Int)
     func keyDown(_ keybd:CsoundVirtualKeyboard, keyNum:Int)

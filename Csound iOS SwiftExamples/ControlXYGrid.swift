@@ -2,11 +2,10 @@
 //  ControlXYGrid.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/31/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
-
 
 class ControlXYGrid: UIControl, CsoundBinding {
     
@@ -17,7 +16,7 @@ class ControlXYGrid: UIControl, CsoundBinding {
     private var xChannelPtr: UnsafeMutablePointer<Float>?
     private var yChannelPtr: UnsafeMutablePointer<Float>?
     private var borderWidth: CGFloat = 10
-    private var circleRect = CGRect()
+    private var circleRect = CGRect()   // Rect for position indicator circle
     private var shouldTrack = false
     
     override init(frame: CGRect) {

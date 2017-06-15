@@ -2,7 +2,7 @@
 //  WaveviewViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -27,17 +27,19 @@ class WaveviewViewController: BaseCsoundViewController {
         csound = CsoundObj()
         csound.addBinding(waveview)
         
+        // Add a tap gesture recognizer to increment F-table by tapping the Waveview
         let tap = UITapGestureRecognizer(target: self, action: #selector(incrementFTable(_:)))
         waveview.addGestureRecognizer(tap)
         
         csound.play(tempFile)
     }
     
+    // Cycle through available F-tables
     @IBAction func incrementFTable(_ tap: UITapGestureRecognizer) {
         fTableIndex += 1
         fTableIndex %= fTables.count
         titleLabel.text = fTables[fTableIndex]
-        waveview.displayFTable(fTableIndex+1)
+        waveview.displayFTable(fTableIndex+1)   // Offset by 1 to match F-table numbering in Csound
     }
     
     @IBAction func showInfo(_ sender: UIButton) {

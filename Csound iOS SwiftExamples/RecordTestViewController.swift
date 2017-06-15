@@ -2,22 +2,20 @@
 //  RecordTestViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
-import AVFoundation
+import AVFoundation // For AVAudioPlayer
 
 class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVAudioPlayerDelegate {
-    
-    
     
     @IBOutlet var mSwitch: UISwitch!
     @IBOutlet var mGainSlider: UISlider!
     @IBOutlet var mGainLabel: UILabel!
     @IBOutlet var mLevelMeter: LevelMeterView!
     @IBOutlet var mPlayButton: UIButton!
-    var mPlayer = AVAudioPlayer()
+    var mPlayer = AVAudioPlayer()   // To play recorded file
 
     override func viewDidLoad() {
         title = "13. Mic: Recording"
@@ -30,7 +28,7 @@ class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVA
             
             csound.stop()
             csound = CsoundObj()
-            csound.useAudioInput = true
+            csound.useAudioInput = true // We must set this property of CsoundObj to true to use audio input
             csound.add(self)
             
             let csoundUI = CsoundUI(csoundObj: csound)
@@ -49,6 +47,7 @@ class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVA
     }
     
     @IBAction func play(_ sender: UIButton) {
+        mPlayer.prepareToPlay()
         mPlayer.play()
         sender.removeTarget(self, action: #selector(play(_:)), for: .touchUpInside)
         sender.addTarget(self, action: #selector(stop(_:)), for: .touchUpInside)

@@ -2,11 +2,11 @@
 //  CsoundHaiku4ViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
-import SafariServices
+import SafariServices   // For SFSafariViewController
 
 class CsoundHaiku4ViewController: BaseCsoundViewController {
 
@@ -25,10 +25,10 @@ class CsoundHaiku4ViewController: BaseCsoundViewController {
         csound.play(tempFile)
     }
     
+    // Use SFSafariViewController to display Iain McCurdy's web-page about the piece
     @IBAction func showSite(_ sender: UIButton) {
         let url: URL! = URL(string: "http://iainmccurdy.org/csoundhaiku.html")
         let safariVC = SFSafariViewController(url: url)
-        
         present(safariVC, animated: true, completion: nil)
     }
     

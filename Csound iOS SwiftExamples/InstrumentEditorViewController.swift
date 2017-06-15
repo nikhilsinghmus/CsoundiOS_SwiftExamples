@@ -2,7 +2,7 @@
 //  InstrumentEditorViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -20,6 +20,7 @@ class InstrumentEditorViewController: BaseCsoundViewController {
         csound.play(csdFile)
     }
     
+    // Trigger an instance of the instrument
     @IBAction func trigger(_ sender: UIButton) {
         csound.updateOrchestra(orchestraTextView.text)
         csound.sendScore("i1 0 1")
@@ -37,20 +38,3 @@ class InstrumentEditorViewController: BaseCsoundViewController {
     }
 
 }
-
-//-(void)viewDidLoad {
-//    self.title = @"08. Instrument Tweaker";
-//    [super viewDidLoad];
-//    NSString *csdFile = [[NSBundle mainBundle] pathForResource:@"instrumentEditor" ofType:@"csd"];
-//    NSLog(@"FILE PATH: %@", csdFile);
-//    
-//    [self.csound stop];
-//    
-//    self.csound = [[CsoundObj alloc] init];
-//    [self.csound play:csdFile];
-//    }
-//    - (IBAction)trigger:(id)sender {
-//        [self.csound updateOrchestra:self.orchestraTextView.text];
-//        NSString *score = @"i1 0 1";
-//        [self.csound sendScore:score];
-//}

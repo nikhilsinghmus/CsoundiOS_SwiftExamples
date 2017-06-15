@@ -2,7 +2,7 @@
 //  MasterViewController.swift
 //  Csound iOS SwiftExamples
 //
-//  Created by Nikhil Singh on 5/29/17.
+//  Nikhil Singh, Dr. Richard Boulanger
 //  Adapted from the Csound iOS Examples by Steven Yi and Victor Lazzarini
 
 import UIKit
@@ -11,23 +11,25 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: BaseCsoundViewController? = nil
     
+    // All ViewController Classes
     var allVCClasses: [BaseCsoundViewController.Type] = [SimpleTest1ViewController.self,
-                                                    SimpleTest2ViewController.self,
-                                                    ButtonTestViewController.self,
-                                                    CsoundHaiku4ViewController.self,
-                                                    TrappedGeneratorViewController.self,
-                                                    ConsoleOutputViewController.self,
-                                                    InstrumentEditorViewController.self,
-                                                    WaveviewViewController.self,
-                                                    AudioFilesTestViewController.self,
-                                                    AudioInTestViewController.self,
-                                                    HarmonizerTestViewController.self,
-                                                    RecordTestViewController.self,
-                                                    MidiTestViewController.self,
-                                                    HardwareTestViewController.self,
-                                                    MultiTouchXYViewController.self,
-                                                    PitchShifterViewController.self]
+                                                         SimpleTest2ViewController.self,
+                                                         ButtonTestViewController.self,
+                                                         CsoundHaiku4ViewController.self,
+                                                         TrappedGeneratorViewController.self,
+                                                         ConsoleOutputViewController.self,
+                                                         InstrumentEditorViewController.self,
+                                                         WaveviewViewController.self,
+                                                         AudioFilesTestViewController.self,
+                                                         AudioInTestViewController.self,
+                                                         HarmonizerTestViewController.self,
+                                                         RecordTestViewController.self,
+                                                         MidiTestViewController.self,
+                                                         HardwareTestViewController.self,
+                                                         MultiTouchXYViewController.self,
+                                                         PitchShifterViewController.self]
     
+    // Display titles for ViewControllers, and for master TableView cells
     let testNames = ["01. Simple Test 1",
                     "02. Simple Test 2",
                     "03. Button Test",
@@ -73,14 +75,15 @@ class MasterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return testNames.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
         cell.textLabel!.text = testNames[indexPath.row]
         return cell
     }
-
+    
+    // Ensure contents are not editable
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return false
     }
@@ -88,23 +91,23 @@ class MasterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var controller: Any?
         
-        if indexPath.row == 12, UIDevice.current.userInterfaceIdiom == .pad {
+        if indexPath.row == 12, UIDevice.current.userInterfaceIdiom == .pad {   // Separate .xib for iPad for MIDI Test example (with virtual keyboard)
             controller = allVCClasses[indexPath.row].init(nibName: String(describing: allVCClasses[indexPath.row]) + "_iPad", bundle: nil)
-        } else if indexPath.row == 0 {
+        } else if indexPath.row == 0 {  // SimpleTest1 UI is housed in Main.storyboard
             controller = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SimpleTest1ViewController")
-        } else {
+        } else {    // Else, use the classes from the allVCClasses array and their names
             controller = allVCClasses[indexPath.row].init(nibName: String(describing: allVCClasses[indexPath.row]), bundle: nil)
         }
         
         if controller != nil {
-            if UIDevice.current.userInterfaceIdiom == .phone {
+            if UIDevice.current.userInterfaceIdiom == .phone {  // Push VC if on iPhone
                 navigationController?.pushViewController(controller as! BaseCsoundViewController, animated: true)
-            } else {
+            } else {    // SplitViewController management on iPad
                 let navCon = UINavigationController(rootViewController: controller as! BaseCsoundViewController)
                 splitViewController?.viewControllers = [navigationController!, navCon]
                 splitViewController?.delegate = controller as! BaseCsoundViewController
                 
-                if UIDevice.current.orientation == .portrait {
+                if UIDevice.current.orientation == .portrait {  // If iPad orientation is portrait, animate hiding the master pane
                     UIView.animate(withDuration: 0.2, animations: { [unowned self] in
                         self.splitViewController?.preferredDisplayMode = .primaryHidden
                     })
