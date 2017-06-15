@@ -15,6 +15,8 @@ class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVA
     @IBOutlet var mGainLabel: UILabel!
     @IBOutlet var mLevelMeter: LevelMeterView!
     @IBOutlet var mPlayButton: UIButton!
+    
+    var hasRecorded = false
     var mPlayer = AVAudioPlayer()   // To play recorded file
 
     override func viewDidLoad() {
@@ -47,11 +49,13 @@ class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVA
     }
     
     @IBAction func play(_ sender: UIButton) {
-        mPlayer.prepareToPlay()
-        mPlayer.play()
-        sender.removeTarget(self, action: #selector(play(_:)), for: .touchUpInside)
-        sender.addTarget(self, action: #selector(stop(_:)), for: .touchUpInside)
-        sender.setTitle("Stop", for: .normal)
+        if hasRecorded {
+            mPlayer.prepareToPlay()
+            mPlayer.play()
+            sender.removeTarget(self, action: #selector(play(_:)), for: .touchUpInside)
+            sender.addTarget(self, action: #selector(stop(_:)), for: .touchUpInside)
+            sender.setTitle("Stop", for: .normal)
+        }
     }
     
     @IBAction func stop(_ sender: UIButton) {
@@ -59,6 +63,7 @@ class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVA
         mPlayer.currentTime = 0
         sender.removeTarget(self, action: #selector(stop(_:)), for: .touchUpInside)
         sender.addTarget(self, action: #selector(play(_:)), for: .touchUpInside)
+        sender.setTitle("Play", for: .normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,6 +92,11 @@ class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVA
         }
         
         mPlayer.delegate = self
+        hasRecorded = true
+    }
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        stop(mPlayButton)
     }
     
     @IBAction func showInfo(_ sender: UIButton) {
