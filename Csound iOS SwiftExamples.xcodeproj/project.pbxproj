@@ -827,6 +827,7 @@
 				DEVELOPMENT_TEAM = AH2WVU4222;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Csound iOS SwiftExamples/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -847,6 +848,7 @@
 				DEVELOPMENT_TEAM = AH2WVU4222;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Csound iOS SwiftExamples/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

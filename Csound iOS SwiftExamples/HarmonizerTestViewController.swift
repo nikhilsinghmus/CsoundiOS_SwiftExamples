@@ -24,6 +24,7 @@ class HarmonizerTestViewController: BaseCsoundViewController, CsoundObjListener 
             
             csound.stop()
             csound = CsoundObj()
+            csound.useAudioInput = true
             csound.add(self)
             
             let csoundUI = CsoundUI(csoundObj: csound)
