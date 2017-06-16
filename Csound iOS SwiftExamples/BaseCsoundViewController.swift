@@ -8,7 +8,7 @@
 import UIKit
 
 // Define base class for all examples
-class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate, UIPopoverPresentationControllerDelegate {
+class BaseCsoundViewController: UIViewController {
     
     var infoText = ""
     var infoVC = UIViewController()
@@ -69,19 +69,9 @@ class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate,
         present(infoVC, animated: true, completion: nil)
     }
     
-    // MARK: UIPopoverPresentationControllerDelegate
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none    // Ensure infoVC presents as popover on iPhone
-    }
-    
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return .none
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         segue.destination.modalPresentationStyle = .popover
     }
-    
     
     // MARK: Init
     required override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -91,8 +81,10 @@ class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate,
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    // MARK: Split View
+}
+
+// MARK: UISplitViewControllerDelegate
+extension BaseCsoundViewController: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewControllerDisplayMode) {
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem;
         navigationItem.leftBarButtonItem?.title = "Csound for iOS"
@@ -100,7 +92,18 @@ class BaseCsoundViewController: UIViewController, UISplitViewControllerDelegate,
     }
     
     func splitViewController(_ svc: UISplitViewController, willShow aViewController: UIViewController, invalidating barButtonItem: UIBarButtonItem) {
-        
+        navigationItem.leftBarButtonItem = nil
+        masterPopoverController = nil
     }
+}
 
+// MARK: UIPopoverPresentationControllerDelegate
+extension BaseCsoundViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none    // Ensure infoVC presents as popover on iPhone
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
 }

@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ControlKnob: UIControl, CsoundBinding {
+class ControlKnob: UIControl {
     
     // Use a computed property so we have a custom setter
-    private var _value: Float32 = 1.0
+    fileprivate var _value: Float32 = 1.0
     var value: Float32 {
         set {
             self._value = newValue
@@ -24,8 +24,8 @@ class ControlKnob: UIControl, CsoundBinding {
     var minimumValue: Float32 = 0.5
     var maximumValue: Float32 = 2.0
     
-    private var channelValue: Float = 0
-    private var channelPtr: UnsafeMutablePointer<Float>?
+    fileprivate var channelValue: Float = 0
+    fileprivate var channelPtr: UnsafeMutablePointer<Float>?
     private var angle: CGFloat = 0
     private var lastTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
     
@@ -95,8 +95,10 @@ class ControlKnob: UIControl, CsoundBinding {
         context?.setStrokeColor(blackColor!)
         context?.strokePath()
     }
-    
-    // MARK: Csound Binding
+}
+
+// MARK: Csound Binding
+extension ControlKnob: CsoundBinding {
     func setup(_ csoundObj: CsoundObj!) {
         channelPtr = csoundObj.getInputChannelPtr("pitch", channelType: CSOUND_CONTROL_CHANNEL)
         channelValue = _value

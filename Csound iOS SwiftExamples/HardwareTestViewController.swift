@@ -8,7 +8,7 @@
 import UIKit
 import CoreMotion
 
-class HardwareTestViewController: BaseCsoundViewController, CsoundObjListener {
+class HardwareTestViewController: BaseCsoundViewController {
     
     @IBOutlet var mSwitch: UISwitch!
     
@@ -108,7 +108,9 @@ class HardwareTestViewController: BaseCsoundViewController, CsoundObjListener {
         infoText = "Hardware: Motion Control shows how to use the device's motion sensor data as a set of controllers for Csound, and also displays this data in a set of UILabels. Accelerometer X controls oscillator frequency, Attitude: Yaw controls filter cutoff, Attitude: Pitch controls amplitude, and Attitude: Roll controls filter resonance."
         displayInfo(sender)
     }
+}
 
+extension HardwareTestViewController: CsoundObjListener {
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {
         DispatchQueue.main.async { [unowned self] in
             self.mSwitch.isOn = false

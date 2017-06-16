@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PitchShifterViewController: BaseCsoundViewController, CsoundObjListener {
+class PitchShifterViewController: BaseCsoundViewController {
 
     @IBOutlet var mSwitch: UISwitch!
     @IBOutlet var mXYControl: ControlXYGrid!
@@ -41,15 +41,17 @@ class PitchShifterViewController: BaseCsoundViewController, CsoundObjListener {
         infoText = "This example uses Csound's 'pvs' real-time spectral-processing opcodes to perform pitch-shifting on a live microphone input signal, controlled with a custom XY control pad."
         displayInfo(sender)
     }
-    
-    func csoundObjCompleted(_ csoundObj: CsoundObj!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.mSwitch.isOn = false
-        }
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+}
+
+extension PitchShifterViewController: CsoundObjListener {
+    func csoundObjCompleted(_ csoundObj: CsoundObj!) {
+        DispatchQueue.main.async { [unowned self] in
+            self.mSwitch.isOn = false
+        }
     }
 }

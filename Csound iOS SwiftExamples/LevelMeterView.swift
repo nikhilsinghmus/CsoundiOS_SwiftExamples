@@ -7,15 +7,15 @@
 
 import UIKit
 
-class LevelMeterView: UIView, CsoundBinding {
+class LevelMeterView: UIView {
 
-    private var channelValue: Float = 0
-    private var channelPtr: UnsafeMutablePointer<Float>?
     private var lastY: CGFloat = -100
-    private var ksmps = 0
-    private var sr = 0
     private var count = 0
-    private var count2 = 0
+    fileprivate var count2 = 0
+    fileprivate var channelValue: Float = 0
+    fileprivate var channelPtr: UnsafeMutablePointer<Float>?
+    fileprivate var ksmps = 0
+    fileprivate var sr = 0
     
     var channelName = ""
     
@@ -107,7 +107,15 @@ class LevelMeterView: UIView, CsoundBinding {
         csoundObj.addBinding(self)
         channelName = channel
     }
-   
+    
+    func cleanup() {
+        channelValue = 0
+        lastY = -100
+        setNeedsDisplay()
+    }
+}
+
+extension LevelMeterView: CsoundBinding {
     func setup(_ csoundObj: CsoundObj!) {
         channelPtr = csoundObj.getOutputChannelPtr(channelName, channelType: CSOUND_AUDIO_CHANNEL)
         let cs = csoundObj.getCsound()
@@ -131,11 +139,4 @@ class LevelMeterView: UIView, CsoundBinding {
             count2 -= Int.max
         }
     }
-    
-    func cleanup() {
-        channelValue = 0
-        lastY = -100
-        setNeedsDisplay()
-    }
-
 }

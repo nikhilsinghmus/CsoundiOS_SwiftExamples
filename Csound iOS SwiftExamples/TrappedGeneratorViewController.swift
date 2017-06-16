@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListener, AVAudioPlayerDelegate {
+class TrappedGeneratorViewController: BaseCsoundViewController {
     
     var hasRendered = false
     var localFileURL: URL?
@@ -68,6 +68,14 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
         }
     }
     
+    @IBAction func showInfo(_ sender: UIButton) {
+        infoVC.preferredContentSize = CGSize(width: 300, height: 140)
+        infoText = "This example demonstrates creating a virtual Csound console, and implementing a method to update this virtual console with information accessed from CsoundObj."
+        displayInfo(sender)
+    }
+}
+
+extension TrappedGeneratorViewController: CsoundObjListener {
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {
         // Display a UIAlertController to the user notifying them of render completion
         let alert = UIAlertController(title: "Render Complete", message: "File generated as trapped.wav in application Documents Folder.", preferredStyle: .alert)
@@ -76,11 +84,5 @@ class TrappedGeneratorViewController: BaseCsoundViewController, CsoundObjListene
         
         present(alert, animated: true, completion: nil)
         hasRendered = true
-    }
-    
-    @IBAction func showInfo(_ sender: UIButton) {
-        infoVC.preferredContentSize = CGSize(width: 300, height: 140)
-        infoText = "This example demonstrates creating a virtual Csound console, and implementing a method to update this virtual console with information accessed from CsoundObj."
-        displayInfo(sender)
     }
 }

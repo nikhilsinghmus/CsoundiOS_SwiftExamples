@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HarmonizerTestViewController: BaseCsoundViewController, CsoundObjListener {
+class HarmonizerTestViewController: BaseCsoundViewController {
     
     @IBOutlet var mHarmPitchSlider: UISlider!
     @IBOutlet var mGainSlider: UISlider!
@@ -47,7 +47,9 @@ class HarmonizerTestViewController: BaseCsoundViewController, CsoundObjListener 
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+}
+
+extension HarmonizerTestViewController: CsoundObjListener {
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {
         DispatchQueue.main.async { [unowned self] in
             self.mSwitch.isOn = false

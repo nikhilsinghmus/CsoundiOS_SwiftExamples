@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AudioInTestViewController: BaseCsoundViewController, CsoundObjListener {
+class AudioInTestViewController: BaseCsoundViewController {
     
     @IBOutlet var mLeftDelayTimeSlider: UISlider!
     @IBOutlet var mLeftFeedbackSlider: UISlider!
@@ -48,15 +48,17 @@ class AudioInTestViewController: BaseCsoundViewController, CsoundObjListener {
         infoText = "This example shows audio processing in real-time with independent delay-time and feedback settings for each channel."
         displayInfo(sender)
     }
-    
-    func csoundObjCompleted(_ csoundObj: CsoundObj!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.mSwitch.isOn = false
-        }
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+}
+
+extension AudioInTestViewController: CsoundObjListener {
+    func csoundObjCompleted(_ csoundObj: CsoundObj!) {
+        DispatchQueue.main.async { [unowned self] in
+            self.mSwitch.isOn = false
+        }
     }
 }

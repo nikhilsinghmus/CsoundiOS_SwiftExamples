@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, UITableViewDelegate, UITableViewDataSource {
+class ConsoleOutputViewController: BaseCsoundViewController {
     
     @IBOutlet var renderButton: UIButton!
     @IBOutlet var mTextView: UITextView!
@@ -15,8 +15,8 @@ class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, 
     var string: String?
     var csdTable = UITableView()
     
-    private var csdArray: [String]?
-    private var csdPath: String?
+    fileprivate var csdArray: [String]?
+    fileprivate var csdPath: String?
     private var folderPath: String?
     private var csdListVC: UIViewController?
     
@@ -32,24 +32,6 @@ class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, 
         DispatchQueue.main.async { [unowned self] in
             self.updateUIWithNewMessage(output)     // Update UI on main thread
         }
-    }
-    
-    // MARK: TableView delegate methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if csdArray != nil {
-            return csdArray!.count
-        } else {
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.dequeueReusableCell(withIdentifier: "Cell")
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
-        if csdArray != nil {
-            cell.textLabel?.text = csdArray?[indexPath.row]
-        }
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -115,12 +97,6 @@ class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, 
         csdPath = Bundle.main.path(forResource: "TextOnly - Countdown", ofType: "csd", inDirectory: "csdStorage")
         super.viewDidLoad()
     }
-
-    func csoundObjCompleted(_ csoundObj: CsoundObj!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.renderButton.isSelected = false
-        }
-    }
     
     func updateUIWithNewMessage(_ newMessage: String) {
         mTextView.insertText(newMessage)
@@ -131,4 +107,32 @@ class ConsoleOutputViewController: BaseCsoundViewController, CsoundObjListener, 
         // Dispose of any resources that can be recreated.
     }
     
+}
+
+extension ConsoleOutputViewController: CsoundObjListener {
+    func csoundObjCompleted(_ csoundObj: CsoundObj!) {
+        DispatchQueue.main.async { [unowned self] in
+            self.renderButton.isSelected = false
+        }
+    }
+}
+
+// MARK: TableView delegate/data source methods
+extension ConsoleOutputViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if csdArray != nil {
+            return csdArray!.count
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        tableView.dequeueReusableCell(withIdentifier: "Cell")
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+        if csdArray != nil {
+            cell.textLabel?.text = csdArray?[indexPath.row]
+        }
+        return cell
+    }
 }

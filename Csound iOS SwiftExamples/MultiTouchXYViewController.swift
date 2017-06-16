@@ -7,15 +7,15 @@
 
 import UIKit
 
-class MultiTouchXYViewController: BaseCsoundViewController, CsoundBinding {
+class MultiTouchXYViewController: BaseCsoundViewController {
     
-    var touchIds = [Int](repeatElement(0, count: 10))
-    var touchX = [Float](repeatElement(0, count: 10))
-    var touchY = [Float](repeatElement(0, count: 10))
-    var touchXPtr = [UnsafeMutablePointer<Float>?](repeatElement(nil, count: 10))
-    var touchYPtr = [UnsafeMutablePointer<Float>?](repeatElement(nil, count: 10))
-    var touchArray = [UITouch?](repeatElement(nil, count: 10))
-    var touchesCount = 0
+    private var touchIds = [Int](repeatElement(0, count: 10))
+    private var touchArray = [UITouch?](repeatElement(nil, count: 10))
+    private var touchesCount = 0
+    fileprivate var touchX = [Float](repeatElement(0, count: 10))
+    fileprivate var touchY = [Float](repeatElement(0, count: 10))
+    fileprivate var touchXPtr = [UnsafeMutablePointer<Float>?](repeatElement(nil, count: 10))
+    fileprivate var touchYPtr = [UnsafeMutablePointer<Float>?](repeatElement(nil, count: 10))
     
     @IBOutlet var touchesLabel: UILabel!
 
@@ -36,20 +36,6 @@ class MultiTouchXYViewController: BaseCsoundViewController, CsoundBinding {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    func setup(_ csoundObj: CsoundObj!) {
-        for i in 0 ..< 10 {
-            touchXPtr[i] = csoundObj.getInputChannelPtr("touch.\(i).x", channelType: CSOUND_CONTROL_CHANNEL)
-            touchYPtr[i] = csoundObj.getOutputChannelPtr("touch.\(i).y", channelType: CSOUND_CONTROL_CHANNEL)
-        }
-    }
-    
-    func updateValuesToCsound() {
-        for i in 0 ..< 10 {
-            touchXPtr[i]?.pointee = touchX[i]
-            touchYPtr[i]?.pointee = touchY[i]
-        }
     }
     
     func cleanup() {
@@ -140,5 +126,21 @@ class MultiTouchXYViewController: BaseCsoundViewController, CsoundBinding {
         infoVC.preferredContentSize = CGSize(width: 300, height: 120)
         infoText = "Multitouch XY Pad demonstrates a multitouch performance surface. Each touch is dynamically mapped to a unique instance of a Csound instrument."
         displayInfo(sender)
+    }
+}
+
+extension MultiTouchXYViewController: CsoundBinding {
+    func setup(_ csoundObj: CsoundObj!) {
+        for i in 0 ..< 10 {
+            touchXPtr[i] = csoundObj.getInputChannelPtr("touch.\(i).x", channelType: CSOUND_CONTROL_CHANNEL)
+            touchYPtr[i] = csoundObj.getOutputChannelPtr("touch.\(i).y", channelType: CSOUND_CONTROL_CHANNEL)
+        }
+    }
+    
+    func updateValuesToCsound() {
+        for i in 0 ..< 10 {
+            touchXPtr[i]?.pointee = touchX[i]
+            touchYPtr[i]?.pointee = touchY[i]
+        }
     }
 }

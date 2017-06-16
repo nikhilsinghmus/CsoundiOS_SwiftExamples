@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation // For AVAudioPlayer
 
-class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVAudioPlayerDelegate {
+class RecordTestViewController: BaseCsoundViewController {
     
     @IBOutlet var mSwitch: UISwitch!
     @IBOutlet var mGainSlider: UISlider!
@@ -76,6 +76,14 @@ class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVA
         return docDirPath.appendingPathComponent("recording.wav")
     }
     
+    @IBAction func showInfo(_ sender: UIButton) {
+        infoVC.preferredContentSize = CGSize(width: 300, height: 120)
+        infoText = "This example uses a custom level-meter widget, and demonstrates efficient use of concurrency for an audio application."
+        displayInfo(sender)
+    }
+}
+
+extension RecordTestViewController: CsoundObjListener {
     func csoundObjStarted(_ csoundObj: CsoundObj!) {
         csound.record(to: recordingURL())
     }
@@ -94,14 +102,10 @@ class RecordTestViewController: BaseCsoundViewController, CsoundObjListener, AVA
         mPlayer.delegate = self
         hasRecorded = true
     }
-    
+}
+
+extension RecordTestViewController: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         stop(mPlayButton)
-    }
-    
-    @IBAction func showInfo(_ sender: UIButton) {
-        infoVC.preferredContentSize = CGSize(width: 300, height: 120)
-        infoText = "This example uses a custom level-meter widget, and demonstrates efficient use of concurrency for an audio application."
-        displayInfo(sender)
     }
 }

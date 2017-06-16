@@ -7,15 +7,15 @@
 
 import UIKit
 
-class Waveview: UIView, CsoundBinding {
-    
-    private var tableLoaded = false
+class Waveview: UIView {
+
     private var lastY: CGFloat = 0
-    private var csObj = CsoundObj()
-    private var table: UnsafeMutablePointer<Float>?
-    private var tableLength = 0
     private var displayData = [Float]()
-    private var fTableNumber = 0
+    fileprivate var table: UnsafeMutablePointer<Float>?
+    fileprivate var tableLength = 0
+    fileprivate var fTableNumber = 0
+    fileprivate var csObj = CsoundObj()
+    fileprivate var tableLoaded = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -65,7 +65,7 @@ class Waveview: UIView, CsoundBinding {
     }
     
     // Update values from F-table in displayData array
-    private func updateDisplayData() {
+    func updateDisplayData() {
         let scalingFactor: Float32 = 0.9
         let width = self.frame.size.width
         let height = self.frame.size.height
@@ -88,7 +88,9 @@ class Waveview: UIView, CsoundBinding {
             self.setNeedsDisplay()
         }
     }
-    
+}
+
+extension Waveview: CsoundBinding {
     func setup(_ csoundObj: CsoundObj!) {
         tableLoaded = false
         csObj = csoundObj

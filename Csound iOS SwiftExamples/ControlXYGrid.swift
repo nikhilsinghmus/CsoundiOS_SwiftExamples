@@ -7,17 +7,17 @@
 
 import UIKit
 
-class ControlXYGrid: UIControl, CsoundBinding {
+class ControlXYGrid: UIControl {
     
-    private var xValue: Float = 0
-    private var yValue: Float = 0
-    private var xChannelValue: Float = 0
-    private var yChannelValue: Float = 0
-    private var xChannelPtr: UnsafeMutablePointer<Float>?
-    private var yChannelPtr: UnsafeMutablePointer<Float>?
     private var borderWidth: CGFloat = 10
     private var circleRect = CGRect()   // Rect for position indicator circle
     private var shouldTrack = false
+    fileprivate var xValue: Float = 0
+    fileprivate var yValue: Float = 0
+    fileprivate var xChannelValue: Float = 0
+    fileprivate var yChannelValue: Float = 0
+    fileprivate var xChannelPtr: UnsafeMutablePointer<Float>?
+    fileprivate var yChannelPtr: UnsafeMutablePointer<Float>?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -148,6 +148,12 @@ class ControlXYGrid: UIControl, CsoundBinding {
         context?.fillEllipse(in: circleRect)
     }
     
+    func cleanup() {
+        removeTarget(self, action: #selector(updateChannelValues(_:)), for: .valueChanged)
+    }
+}
+
+extension ControlXYGrid: CsoundBinding {
     func setup(_ csoundObj: CsoundObj!) {
         xChannelPtr = csoundObj.getInputChannelPtr("mix", channelType: CSOUND_CONTROL_CHANNEL)
         yChannelPtr = csoundObj.getInputChannelPtr("pitch", channelType: CSOUND_CONTROL_CHANNEL)
@@ -169,9 +175,5 @@ class ControlXYGrid: UIControl, CsoundBinding {
     func updateValuesToCsound() {
         xChannelPtr?.pointee = xChannelValue
         yChannelPtr?.pointee = yChannelValue
-    }
-    
-    func cleanup() {
-        removeTarget(self, action: #selector(updateChannelValues(_:)), for: .valueChanged)
     }
 }

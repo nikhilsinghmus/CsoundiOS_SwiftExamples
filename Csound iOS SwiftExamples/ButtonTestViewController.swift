@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ButtonTestViewController: BaseCsoundViewController, CsoundObjListener {
+class ButtonTestViewController: BaseCsoundViewController {
     
     @IBOutlet var mValueButton: UIButton!
     @IBOutlet var mEventButton: UIButton!
@@ -60,7 +60,9 @@ class ButtonTestViewController: BaseCsoundViewController, CsoundObjListener {
         infoText = "Uses a .csd based on SimpleTest 2, but depends on the user to press a button to trigger each note. One button uses a binding and the other sends a score message to CsoundObj."
         displayInfo(sender)
     }
-    
+}
+
+extension ButtonTestViewController: CsoundObjListener {
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {
         DispatchQueue.main.async { [unowned self] in
             self.mSwitch.isOn = false

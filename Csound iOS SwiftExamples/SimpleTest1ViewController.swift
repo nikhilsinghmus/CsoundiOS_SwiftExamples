@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SimpleTest1ViewController: BaseCsoundViewController, CsoundObjListener {
+class SimpleTest1ViewController: BaseCsoundViewController {
     
     @IBOutlet var uiSlider: UISlider!
     @IBOutlet var uiSwitch: UISwitch!
@@ -47,8 +47,10 @@ class SimpleTest1ViewController: BaseCsoundViewController, CsoundObjListener {
         infoText = "Flip the switch to begin rendering Csound. Use the slider to control pitch."
         displayInfo(sender) // Call inherited method to display info popover after setting specifics
     }
-    
-    // CsoundObjListener method: if Csound finishes running, it will call this method
+}
+
+// CsoundObjListener method: if Csound finishes running, it will call this method
+extension SimpleTest1ViewController: CsoundObjListener {
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {
         DispatchQueue.main.async { [unowned self] in    // Use the main thread for UI operation
             self.uiSwitch.isOn = false  // Turn the switch off

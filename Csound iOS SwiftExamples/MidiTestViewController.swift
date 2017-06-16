@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MidiTestViewController: BaseCsoundViewController, CsoundObjListener, CsoundVirtualKeyboardDelegate {
+class MidiTestViewController: BaseCsoundViewController {
     
     @IBOutlet var mAttackSlider: UISlider!
     @IBOutlet var mDecaySlider: UISlider!
@@ -74,14 +74,23 @@ class MidiTestViewController: BaseCsoundViewController, CsoundObjListener, Csoun
         infoText = "This example demonstrate MIDI input from hardware, as well an on-screen (simulated) MIDI keyboard."
         displayInfo(sender)
     }
-    
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}
+
+extension MidiTestViewController: CsoundObjListener {
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {
         DispatchQueue.main.async { [unowned self] in
             self.mSwitch.isOn = false
         }
     }
-    
-    // Virtual keyboard delegate methods
+}
+
+// Virtual keyboard delegate methods
+extension MidiTestViewController: CsoundVirtualKeyboardDelegate {
     func keyDown(_ keybd: CsoundVirtualKeyboard, keyNum: Int) {
         let midikey = 60 + keyNum
         csound.sendScore(String(format: "i1.%003d 0 -1 \(midikey) 0", midikey))
@@ -90,10 +99,5 @@ class MidiTestViewController: BaseCsoundViewController, CsoundObjListener, Csoun
     func keyUp(_ keybd: CsoundVirtualKeyboard, keyNum: Int) {
         let midikey = 60 + keyNum
         csound.sendScore(String(format: "i-1.%003d 0 0", midikey))
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }

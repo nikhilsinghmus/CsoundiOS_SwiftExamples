@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SimpleTest2ViewController: BaseCsoundViewController, CsoundObjListener {
+class SimpleTest2ViewController: BaseCsoundViewController {
     
     @IBOutlet var onOffSwitch: UISwitch!
     
@@ -68,14 +68,16 @@ class SimpleTest2ViewController: BaseCsoundViewController, CsoundObjListener {
         displayInfo(sender)
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}
+
+extension SimpleTest2ViewController: CsoundObjListener {
     func csoundObjCompleted(_ csoundObj: CsoundObj!) {
         DispatchQueue.main.async { [unowned self] in
             self.onOffSwitch.isOn = false
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
