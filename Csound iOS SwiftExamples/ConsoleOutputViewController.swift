@@ -40,19 +40,18 @@ class ConsoleOutputViewController: BaseCsoundViewController {
     private var csdListVC: UIViewController?
     
     // This method is called by CsoundObj() to output console messages
-    func messageCallback(_ infoObj: NSValue) {
-        var info = Message()    // Create instance of Message (a C Struct)
-        infoObj.getValue(&info) // Store the infoObj value in Message
-        let message = UnsafeMutablePointer<Int8>.allocate(capacity: 1024) // Create an empty C-String
-        let va_ptr: CVaListPointer = CVaListPointer(_fromUnsafeMutablePointer: &(info.valist)) // Get reference to variable argument list
-        vsnprintf(message, 1024, info.format, va_ptr)   // Store in our C-String
-        let output = String(cString: message)   // Create String object with C-String
-        
-        DispatchQueue.main.async { [unowned self] in
+     @objc func messageCallback(_ infoObj: NSValue) {
+            var info = Message()   // Create instance of Message (a C Struct)
+            infoObj.getValue(&info) // Store the infoObj value in Message
+            var message: UnsafeMutablePointer<Int8>? = nil  // Create an empty C-String
+            vasprintf(&message, info.format, info.valist)
+            let output = String(cString: message!)
+            message?.deallocate()    // Otherwise we fill up memory
+            DispatchQueue.main.async { [unowned self] in
             self.updateUIWithNewMessage(output)     // Update UI on main thread
         }
     }
-    
+ 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         csdPath = folderPath?.appending((tableView.cellForRow(at: indexPath)?.textLabel?.text)!)
         csdListVC?.dismiss(animated: true, completion: nil)
